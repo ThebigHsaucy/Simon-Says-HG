@@ -353,7 +353,7 @@ function checkPress(color) {
 
   const remainingPresses = computerSequence.length - playerSequence.length;//3
 
-  setText(statusSpan, `Your turn: ${remainingPresses} presses left`);//4
+ setText(statusSpan, `Your turn: ${remainingPresses} presses left`);//4
 
   if (computerSequence[index] !== playerSequence[index]) {
     resetGame("Game over, try again.");//5
