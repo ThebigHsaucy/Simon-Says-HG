@@ -296,7 +296,7 @@ sequence.forEach((color, index) => {
 
   setText(statusSpan, "The computer's turn...");//2
   
-  setText(heading, `Round ${roundCount} of ${maxRoundCount}`);//3
+  setText(heading, 'Round ${roundCount} of ${maxRoundCount}');//3
   
   const randomColor = getRandomItem(["red", "green", "blue", "yellow"]);//4
   computerSequence.push(randomColor);//4
@@ -354,7 +354,7 @@ function checkPress(color) {
   const remainingPresses = computerSequence.length - playerSequence.length;//3
 
  setText(statusSpan, `Your turn: ${remainingPresses} presses left`);//4
-
+ 
   if (computerSequence[index] !== playerSequence[index]) {
     resetGame("Game over, try again.");//5
     return;
