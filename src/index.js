@@ -77,12 +77,6 @@ startButton.addEventListener("click", startButtonHandler);
  * EVENT HANDLERS
  */
 
-function padHandler(event) {
-  const clickedPadColor = event.target.dataset.color;
-  playerSequence.push(clickedPadColor);
-  checkSequence();
-}
-
 /**
  * Called when the start button is clicked.
  *
@@ -99,7 +93,7 @@ function padHandler(event) {
  */
 function startButtonHandler() {
   // TODO: Write your code here.
-setLevel();//1
+const level = setLevel();//1
 
 roundCount = 0;
 roundCount = roundCount +1;//2
@@ -116,7 +110,10 @@ statusSpan.classList.remove("hidden");//4
 //step 5//
  playComputerTurn();//5
 
-return { startButton, statusSpan};
+return { 
+  startButton: startButton, 
+  statusSpan: statusSpan,
+};
 }
 /**
  * Called when one of the pads is clicked.
@@ -143,9 +140,8 @@ function padHandler(event) {
  
   const pad = pads.find((pad) => pad.color === color); //step 3
 
-  if (pad) {
-    pad.sound.play(); //step 4
-  }
+  pad.sound.play(); //step 4
+  
   checkPress(color); //step 5
    
   return color; //step 6
@@ -178,23 +174,15 @@ function padHandler(event) {
  */
 function setLevel(level = 1) {
   // TODO: Write your code here.
-  if (![1, 2, 3, 4].includes(level)) {
-    console.error("Invalid Level Value. Acceptable values are 1, 2, 3, or 4.");
-    return;
+  const levelRange = [8, 14, 20, 31];
+  for (let i = 1; i <= 4; i++) {
+    if (level === i) {
+      maxRoundCount = levelRange[i - 1];
+      return maxRoundCount;
+    }
   }
-  maxRoundCount = level;
+  return "Please enter level 1, 2, 3, or 4";
 }
-
-/* const levelSequence = [8, 14, 20, 31]
-const validLevels = [1, 2, 3, 4]
-
-if (validLevels.includes(level)){
-  return levelSequence[level - 1];
-} else {
-  return "pelaser enter level 1, 2, 3, 4";
-}
-}
-*/
 
 
 /**
@@ -216,7 +204,6 @@ function getRandomItem(collection) {
    if (collection.length === 0) return null;
    const randomIndex = Math.floor(Math.random() * collection.length);
    return collection[randomIndex];
-
 }
 
 /**
@@ -272,12 +259,12 @@ function activatePad(color) {
  */
 
 function activatePads(sequence) {
-  sequence.forEach((color, index) => {
+  // TODO: Write your code here.
+sequence.forEach((color, index) => {
     setTimeout(() => {
       activatePad(color);
-    }, 600 * (index +1));
+    }, index * 600);
   });
-  // TODO: Write your code here.
 }
 
 /**
@@ -309,14 +296,14 @@ function activatePads(sequence) {
 
   setText(statusSpan, "The computer's turn...");//2
   
-  setText(heading, "Round ${roundCount} of ${maxRoundCount}");//3
+  setText(heading, `Round ${roundCount} of ${maxRoundCount}`);//3
   
-  const randomColor = getRandomItem(pads).color;//4
+  const randomColor = getRandomItem(["red", "green", "blue", "yellow"]);//4
   computerSequence.push(randomColor);//4
 
   activatePads(computerSequence);//5
 
-  setTimeout(() => playHumanTurn(roundCount), roundCount * 600 + 1000); // 5
+  setTimeout(() => playHumanTurn(), roundCount * 600 + 1000); // 5
 }//6
 
 
@@ -332,9 +319,8 @@ function playHumanTurn() {
   // TODO: Write your code here.
   padContainer.classList.remove("unclickable");//1
 
-  const remainingPressses = computerSequence.length - playerSequence.length; 
-  setText(statusSpan, "Your Turn: ${remainingPressses} presses left");//2
-
+  const remainingPressses = maxRoundCount - playerSequence.length; 
+  setText(statusSpan, `Your turn: ${remainingPresses} presses left`);
 }
 
 /**
@@ -367,7 +353,7 @@ function checkPress(color) {
 
   const remainingPresses = computerSequence.length - playerSequence.length;//3
 
-  setText(statusSpan, 'Your turn: ${remainingPresses} presses left');//4
+  setText(statusSpan, `Your turn: ${remainingPresses} presses left`);//4
 
   if (computerSequence[index] !== playerSequence[index]) {
     resetGame("Game over, try again.");//5
@@ -375,7 +361,7 @@ function checkPress(color) {
   }
 
   if( remainingPresses === 0) {
-    checkRound();//6
+    setTimeout(() => checkRound(), 1000);//6
   }
 }
 
@@ -397,15 +383,14 @@ function checkPress(color) {
 
 function checkRound() {
   // TODO: Write your code here.
-   let maxRoundCount = onChange()
   if (playerSequence.length === maxRoundCount){
-    resetGame("Win, Win, Win")//1
+    resetGame("Win, Win, Win");//1
   } else {
     roundCount = roundCount +1;//2
     playerSequence = [];
 
     setText(statusSpan, "Nice! Keep going!");
-    setTimeout(playComputerTurn, 1000);
+    setTimeout(() => playComputerTurn(), 1000);
   }
 }
 
@@ -432,24 +417,6 @@ function resetGame(text) {
    padContainer.classList.add("unclickable");
 }
 
-let e = document.getElementById("levelSelect");
-function onChange() {
-  let level = e.value;
-  let text = e.options[e.selectedIndex].text;
-  console.log(level, text);
-  if (level === "1") {
-    return 8;
-  } else if (level === "2") {
-    return 14;
-  } else if (level === "3") {
-    return 20;
-  } else if (level === "4") {
-    return 31;
-  }
-}
-
-e.onchange = onChange;
-onChange(); //calls level selection
 /**
  * Please do not modify the code below.
  * Used for testing purposes.
