@@ -5,27 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/styles.css" />
-    <title>Simon Says HG</title>
+    <title>Simon Says Game</title>
   </head>
   
   <body>
-    <h1 class="js-heading">Simon Says</h1>
-    <div>
-      <section>
-        <select id="levelSelect" class="dropdown js-dropdown">
-          <option value="1" disabled selected>Select Level</option>
-          <option value="1">Level 1</option>
-          <option value="2">Level 2</option>
-          <option value="3">Level 3</option>
-          <option value="4">Level 4</option>
-        </select>
-      </section>
+    <main>
+    <h1 class="js-heading">Simon Says HG</h1>
 
       <section class="game-controls">
         <button class="start-button js-start-button">start</button>
         <span class="status hidden js-status"></span>
       </section>
-    </div>
 
     <section class="pad-container unclickable js-pad-container">
       <div class="pad pad-red js-pad-red" data-color="red"></div>
